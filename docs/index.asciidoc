@@ -1,0 +1,123 @@
+:plugin: example
+:type: input
+:default_codec: plain
+// Update header with plugin name and default codec
+
+///////////////////////////////////////////
+START - GENERATED VARIABLES, DO NOT EDIT!
+///////////////////////////////////////////
+:version: %VERSION%
+:release_date: %RELEASE_DATE%
+:changelog_url: %CHANGELOG_URL%
+:include_path: ../../../../logstash/docs/include
+///////////////////////////////////////////
+END - GENERATED VARIABLES, DO NOT EDIT!
+///////////////////////////////////////////
+
+[id="plugins-{type}s-{plugin}"]
+
+=== Mongodb input plugin
+
+include::{include_path}/plugin_header.asciidoc[]
+
+==== Description
+
+This is a logstash input plugin watching changes of data from mongoDB.
+It will connect to the mongodb, start to watch the given collection for changes.
+
+This plugin keeps track of the changes with link:https://docs.mongodb.com/manual/changeStreams/#resume-a-change-stream[resume token] by recording it in a sqlite. It can be stopped or restart from where it stopped to watch. To make it possible, link:https://docs.mongodb.com/manual/changeStreams/#resumeafter-for-change-streams[oplog must have enough history].
+
+
+// Format anchors and links to support generated ids for versioning
+// Sample anchor: [id="plugins-{type}s-{plugin}-setting_name"]
+// Sample link: <<plugins-{type}s-{plugin}-setting_name>>
+
+[id="plugins-{type}s-{plugin}-mongodb-input-options"]
+==== Mongodb Input Configuration Options
+This plugin supports the <<plugins-{type}s-{plugin}-mongodb-input-options,following configuration options>> and the <<plugins-{type}s-{plugin}-common-options>>.
+[cols="<,<,<",options="header",]
+|=======================================================================
+|Setting |Input type|Required
+| <<plugins-{type}s-{plugin}-uri>> |<<string,string>>|Yes
+| <<plugins-{type}s-{plugin}-database>> |<<string,string>>|Yes
+| <<plugins-{type}s-{plugin}-collection>> |<<string,string>>|Yes
+| <<plugins-{type}s-{plugin}-start_at>> |<<string,string>>|No
+|=======================================================================
+
+[id="plugins-{type}s-{plugin}-uri"]
+===== `uri`
+
+  * This is a required setting.
+  * Value type is <<string,string>>
+  * There is no default value for this setting.
+
+A mongodb URI. For example, "mongodb://127.0.0.1:27017"
+
+[id="plugins-{type}s-{plugin}-database"]
+===== `database`
+
+  * This is a required setting.
+  * Value type is <<string,string>>
+  * There is no default value for this setting.
+
+A mongodb database name.
+
+[id="plugins-{type}s-{plugin}-collection"]
+===== `collection`
+
+  * This is a required setting.
+  * Value type is <<string,string>>
+  * There is no default value for this setting.
+
+A mongodb collection name to watch change event.
+
+[id="plugins-{type}s-{plugin}-start_at"]
+===== `start_at_operation_time`
+
+* Value type is <<string,strings>>
+* There is no default value for this setting.
+
+It will start to watch events occurred at and after the given time.
+
+[id="plugins-{type}s-{plugin}-common-options"]
+==== Common Options
+
+[cols="<,<,<",options="header",]
+|=======================================================================
+|Setting |Input type|Required
+| <<plugins-{type}s-{plugin}-operation_field>> |<<string,string>>|No
+| <<plugins-{type}s-{plugin}-event_time_field>> |<<string,string>>|No
+| <<plugins-{type}s-{plugin}-since_db_path>> |<<string,string>>|No
+|=======================================================================
+
+[id="plugins-{type}s-{plugin}-operation_field"]
+===== `operation_field`
+
+  * Value type is <<string,string>>
+  * Default value is `[@metadata][mongodb_operation]`
+
+It sets the given field with a type of event occurred.
+
+[id="plugins-{type}s-{plugin}-event_time_field"]
+===== `event_time_field`
+
+  * Value type is <<string,string>>
+  * Default value is `[@metadata][mongodb_event_time]`
+
+It sets the given field with time at witch a event occurred.
+
+[id="plugins-{type}s-{plugin}-since_db_path"]
+===== `since_db_path`
+
+  * Value type is <<path,path>>
+  * Default value is {}
+
+The path to the since db(sqlite) database file.
+
+// The full list of Value Types is here: 
+// https://www.elastic.co/guide/en/logstash/current/configuration-file-structure.html
+
+[id="plugins-{type}s-{plugin}-common-options"]
+include::{include_path}/{type}.asciidoc[]
+
+:default_codec!:
